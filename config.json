@@ -1,0 +1,54 @@
+{
+  "csv_processing_configs": [
+    {
+      "description": "User data processing",
+      "file_path": "data/users.csv",
+      "delta_path": "delta/users_table",
+      "mode": "overwrite",
+      "options": {
+        "delimiter": ",",
+        "header": "true",
+        "inferSchema": "true",
+        "encoding": "UTF-8"
+      },
+      "partition_cols": null,
+      "add_metadata": true
+    },
+    {
+      "description": "Product catalog processing",
+      "file_path": "data/products.csv",
+      "delta_path": "delta/products_table", 
+      "mode": "overwrite",
+      "options": {
+        "delimiter": ",",
+        "header": "true",
+        "inferSchema": "true"
+      },
+      "partition_cols": ["category"],
+      "add_metadata": true
+    },
+    {
+      "description": "Transaction data processing",
+      "file_path": "data/transactions.csv",
+      "delta_path": "delta/transactions_table",
+      "mode": "append",
+      "options": {
+        "delimiter": ",",
+        "header": "true",
+        "inferSchema": "true",
+        "timestampFormat": "yyyy-MM-dd HH:mm:ss"
+      },
+      "partition_cols": ["year", "month"],
+      "add_metadata": true
+    }
+  ],
+  "spark_config": {
+    "app_name": "CSV-to-Delta-ETL",
+    "additional_configs": {
+      "spark.sql.adaptive.enabled": "true",
+      "spark.sql.adaptive.coalescePartitions.enabled": "true",
+      "spark.sql.adaptive.skewJoin.enabled": "true",
+      "spark.serializer": "org.apache.spark.serializer.KryoSerializer"
+    }
+  }
+}
