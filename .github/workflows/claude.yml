@@ -29,20 +29,24 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude PR Action
+      - name: Run Claude Issue Action
         uses: anthropics/claude-code-action@beta
         with:
           # anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           # Or use OAuth token instead:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           timeout_minutes: "60"
-          # mode: tag  # Default: responds to @claude mentions
-          # Optional: Restrict network access to specific domains only
-          # experimental_allowed_domains: |
-          #   .anthropic.com
-          #   .github.com
-          #   api.github.com
-          #   .githubusercontent.com
-          #   bun.sh
-          #   registry.npmjs.org
-          #   .blob.core.windows.net
+          direct_prompt: |
+            Please review the issue details, create a new branch with a friendly name based on the issue, implement code to handle the bug/issue, then create a pr from branch to dev.
+
+            Focus on:
+            - Code quality and best practices
+            - Potential bugs or issues
+            - Performance considerations
+            - Security implications
+            - Test coverage
+            - Documentation updates if needed
+
+            Provide constructive feedback with specific suggestions for improvement.
+            Use inline comments to highlight specific areas of concern.
+          # allowed_tools: "mcp__github__create_pending_pull_request_review,mcp__github__add_comment_to_pending_review,mcp__github__submit_pending_pull_request_review,mcp__github__get_pull_request_diff"
